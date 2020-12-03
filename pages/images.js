@@ -13,6 +13,7 @@ function ImagesPage() {
   );
 
   const isLoading = !data && !error;
+  
 
   const imagesToShow = data && data.slice(0, 100);
 
