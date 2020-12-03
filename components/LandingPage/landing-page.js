@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useIdleTimer } from "react-idle-timer";
 import * as styles from "./landing-page.styles.js";
 import { Menu } from "./../Menu/menu";
+import { StaggerWrap } from "./../Stagger/Stagger.jsx";
+import { FadeInFact } from "./../FadeInFact/FadeInFact";
 
 export const LandingPage = () => {
     const [active, setActive] = useState(false);
@@ -25,6 +27,15 @@ export const LandingPage = () => {
         onActive: handleOnActive,
         onAction: handleOnAction,
     });
+
+    const facts = [
+        "Lorem ipsum",
+        "Dolor sit amet",
+        "Consectetur",
+        "Adipisicing elit",
+        "Soluta quis",
+        "Voluptatibus",
+    ];
     return (
         <div css={styles.landing}>
             <video
@@ -43,7 +54,15 @@ export const LandingPage = () => {
                     animate={{ x: 50, y: 300, color: "#FF5500", opacity: 1 }}
                     transition={{ ease: "easeOut", duration: 4 }}
                 >
-                    <h1>Fact 1</h1>
+                    <StaggerWrap>
+                <ul>
+                    {facts.map((item, key) => (
+                        <FadeInFact key={key}>
+                            <h2>{item}</h2>
+                        </FadeInFact>
+                    ))}
+                </ul>
+            </StaggerWrap>
                 </motion.div>
             )}
         </div>
