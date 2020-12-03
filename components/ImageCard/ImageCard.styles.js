@@ -1,10 +1,20 @@
 import { css } from "@emotion/react";
 
-export const outerContainer = css`
+export const outerContainer = (index) => css`
   background: #c4c4c4;
-  width: 400px;
-  height: 400px;
+  width: 100%;
+  height: auto;
   border-radius: 4px;
-  position: relative;
   overflow: hidden;
+  transform-style: preserve-3d;
+
+  position: absolute;
+  display: block;
+  width: 100%;
+  top: 40%;
+  left: 50%;
+  @media only screen and (min-width: 600px) {
+    width: 45%;
+  }
+  transform: translate3D(-50%, 0, calc(2 * 100 * ${index} * -1px));
 `;

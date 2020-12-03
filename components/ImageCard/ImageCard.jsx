@@ -2,10 +2,11 @@ import React from "react";
 import Image from "next/image";
 import * as styles from "./ImageCard.styles.js";
 import { css } from "@emotion/react";
+import { motion } from "framer-motion";
 
-export const ImageCard = ({ src }) => {
+export const ImageCard = ({ src, index }) => {
   return (
-    <div css={styles.outerContainer}>
+    <motion.div css={styles.outerContainer(index)}>
       <Image
         src={src}
         alt="Picture of the author"
@@ -17,6 +18,6 @@ export const ImageCard = ({ src }) => {
           object-fit: cover;
         `}
       ></Image>
-    </div>
+    </motion.div>
   );
 };
