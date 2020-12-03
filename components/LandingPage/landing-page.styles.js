@@ -10,9 +10,12 @@ export const landing = css`
         width: auto;
         height: auto;
         transform: translateX(-50%) translateY(-50%);
+        z-index: -10;
     }
 `;
 
 export const motion = css`
     width: fit-content;
 `;
+
+
