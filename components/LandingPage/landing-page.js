@@ -22,7 +22,7 @@ export const LandingPage = () => {
     };
 
     useIdleTimer({
-        timeout: 5000,
+        timeout: 2000,
         onIdle: handleOnIdle,
         onActive: handleOnActive,
         onAction: handleOnAction,
