@@ -1,24 +1,45 @@
 import { css } from "@emotion/react";
 
 export const menu = css`
-    color: #FF5500;
+    color: #eeeeee;
+    min-width: 100px;
     margin: 0 auto;
 
-    button {
-        color: white;
-        background-color: #FF5500;
-        padding: 10px;
-        border-radius: 10px;
+    h2 {
+        margin: 0 auto;
+        width: fit-content;
+        font-weight: 800;
     }
 
-    button:hover {
-        background-color: #CC2200;
+    p {
+        margin: 40px auto;
+        text-align: center;
+        width: 80%;
+        max-width: 600px;
+    }
+
+    button {
+        display: block;
+        margin: 0 auto;
+        border-radius: 0.12em;
+        color: #eeeeee;
+        background-color: rgba(0, 0, 0, 0);
+        border: 2px solid #eeeeee;
+        padding: 10px;
     }
 `;
 
 export const about = css`
-    display: block;
-        margin-top: 50px;
+    .link,
+    .logo {
+        display: block;
+        margin: 40px auto;
+        width: fit-content;
+    }
+
+    .link:hover {
+        color: #E87B81
+    }
 `;
 
 export const motion = css`

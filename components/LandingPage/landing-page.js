@@ -45,9 +45,14 @@ export const LandingPage = () => {
                 src="/landing.mp4"
                 type="video/mp4"
             ></video>
-            <div className="menuWrapper">
-                <AnimatePresence>{active && <Menu></Menu>}</AnimatePresence>
-            </div>
+
+            <AnimatePresence>
+                {active && (
+                    <div className="menuWrapper">
+                        <Menu></Menu>
+                    </div>
+                )}
+            </AnimatePresence>
 
             {!active && (
                 <motion.div
