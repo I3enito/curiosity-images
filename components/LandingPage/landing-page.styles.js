@@ -22,8 +22,18 @@ export const landing = css`
     }
 
     .fact {
-        padding: 20px;
+        padding: 15px;
+        margin: 20px;
+        margin-left: 10%;
+        margin-right: 10%;
         width: fit-content;
+        font-weight: 200;
+        background-color: rgba(0, 0, 0, 0.3)
+    }
+
+    .fact h3 {
+        text-align: center;
+        font-weight: 200;
     }
 
     .f0, .f2, .f4 {

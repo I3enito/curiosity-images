@@ -8,7 +8,7 @@ export const StaggerWrap = ({
   children,
   delayOrder,
   delay = 0,
-  childrenDelay = 2,
+  childrenDelay = 3,
   ...rest
 }) => {
 

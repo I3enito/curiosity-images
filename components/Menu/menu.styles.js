@@ -5,16 +5,20 @@ export const menu = css`
     min-width: 100px;
     margin: 0 auto;
 
-    h2 {
+    h1 {
         margin: 0 auto;
         width: fit-content;
         font-weight: 800;
+        margin-bottom: 30%;
+        margin-top: 20%;
+        font-size: 48px;
     }
 
     p {
         margin: 40px auto;
         text-align: center;
         width: 80%;
+        margin-bottom: 20%;
         max-width: 600px;
     }
 

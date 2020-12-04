@@ -29,12 +29,12 @@ export const LandingPage = () => {
     });
 
     const facts = [
-        "Lorem ipsum",
-        "Dolor sit amet",
-        "Consectetur",
-        "Adipisicing elit",
-        "Soluta quis",
-        "Voluptatibus",
+        "Curiosity is about 3 metres  long",
+        "On the mars since 8 years",
+        "Equipped with a radioisotope power system",
+        "Snapped a 1.8 billion-pixel panorama",
+        "Carries 17 cameras",
+        "Sent over 468,926 images back to Earth",
     ];
     return (
         <div css={styles.landing}>
@@ -57,7 +57,7 @@ export const LandingPage = () => {
             {!active && (
                 <motion.div
                     css={styles.motion}
-                    initial={{ opacity: 0, color: "#FF5500" }}
+                    initial={{ opacity: 0, color: "#eeeeee" }}
                     animate={{ opacity: 1 }}
                     transition={{ ease: "easeOut", duration: 2 }}
                 >
@@ -68,7 +68,7 @@ export const LandingPage = () => {
                                     key={key}
                                     className={"fact f" + key}
                                 >
-                                    <h2>{item}</h2>
+                                    <h3>{item}</h3>
                                 </FadeInFact>
                             ))}
                         </ul>
