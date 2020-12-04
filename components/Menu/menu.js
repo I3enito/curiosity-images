@@ -4,12 +4,11 @@ import Link from "next/link";
 import * as styles from "./menu.styles.js";
 
 export const Menu = () => (
-        <div>
             <motion.div
                 css={styles.motion}
                 key="menu"
-                initial={{ x: 0, opacity: 0, color: "#FF5500" }}
-                animate={{ x: 50, opacity: 1 }}
+                initial={{ y: 0, opacity: 0, color: "#FF5500" }}
+                animate={{ y: 30, opacity: 1 }}
                 transition={{ ease: "easeIn", duration: 0.5 }}
                 exit={{ x: 0, opacity: 0 }}
             >
@@ -33,5 +32,4 @@ export const Menu = () => (
                     </div>
                 </div>
             </motion.div>
-        </div>
     );

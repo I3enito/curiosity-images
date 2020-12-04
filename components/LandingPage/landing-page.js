@@ -22,7 +22,7 @@ export const LandingPage = () => {
     };
 
     useIdleTimer({
-        timeout: 2000,
+        timeout: 5000,
         onIdle: handleOnIdle,
         onActive: handleOnActive,
         onAction: handleOnAction,
@@ -45,24 +45,29 @@ export const LandingPage = () => {
                 src="/landing.mp4"
                 type="video/mp4"
             ></video>
-            <AnimatePresence>{active && <Menu></Menu>}</AnimatePresence>
+            <div className="menuWrapper">
+                <AnimatePresence>{active && <Menu></Menu>}</AnimatePresence>
+            </div>
 
             {!active && (
                 <motion.div
                     css={styles.motion}
-                    initial={{ x: -20, y: 300, opacity: 0 }}
-                    animate={{ x: 50, y: 300, color: "#FF5500", opacity: 1 }}
-                    transition={{ ease: "easeOut", duration: 4 }}
+                    initial={{ opacity: 0, color: "#FF5500" }}
+                    animate={{ opacity: 1 }}
+                    transition={{ ease: "easeOut", duration: 2 }}
                 >
                     <StaggerWrap>
-                <ul>
-                    {facts.map((item, key) => (
-                        <FadeInFact key={key}>
-                            <h2>{item}</h2>
-                        </FadeInFact>
-                    ))}
-                </ul>
-            </StaggerWrap>
+                        <ul className="factsWrapper">
+                            {facts.map((item, key) => (
+                                <FadeInFact
+                                    key={key}
+                                    className={"fact f" + key}
+                                >
+                                    <h2>{item}</h2>
+                                </FadeInFact>
+                            ))}
+                        </ul>
+                    </StaggerWrap>
                 </motion.div>
             )}
         </div>

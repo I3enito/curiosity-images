@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 
 export const menu = css`
     color: #FF5500;
+    margin: 0 auto;
 
     button {
         color: white;
@@ -22,4 +23,5 @@ export const about = css`
 
 export const motion = css`
     width: fit-content;
+    align-self: center;
 `;

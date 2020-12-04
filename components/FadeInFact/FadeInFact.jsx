@@ -5,8 +5,9 @@ import { StaggerContext } from "../Stagger/Stagger";
 
 export const FadeInFact = ({
     children,
-    yOffset = 24, // y initial possition
-    easing = [0.42, 0, 0.58, 1], // [number, number, number, number] | "linear" | "easeIn" |
+    yOffset = 0, // y initial possition
+    xOffset = -40, // x initial possition
+    easing = "easeInOut", // [number, number, number, number] | "linear" | "easeIn" |
     //  "easeOut" | "easeInOut" | "circIn" | "circOut" | "circInOut" | "backIn" | "backOut" |
     // "backInOut" | "anticipate" | EasingFunction;
     duration = 0.4,
@@ -37,7 +38,7 @@ export const FadeInFact = ({
     };
 
     const variants = {
-        hidden: { y: yOffset, opacity: 0, transition },
+        hidden: { y: yOffset, x: xOffset, opacity: 0, transition },
         show: {
             y: 0,
             opacity: 1,
