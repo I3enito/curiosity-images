@@ -8,6 +8,7 @@ import { fetcher } from "../utils/requests/fetcher";
 
 function ImagesPage() {
   const [imageCount, setImageCount] = useState(20);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_SERVER_HOST}/images`,
     fetcher
@@ -15,20 +16,27 @@ function ImagesPage() {
 
   const isLoading = !data && !error;
 
-  const imagesToShow = data ? data.slice(0, imageCount) : [];
+  const totalImages = data && data.length;
+  const totalLength = totalImages ? totalImages * cardDistance : 0;
 
-  const { scrollY, scrollYProgress } = useViewportScroll();
+  const imagesToShow = data
+    ? data.slice(currentIndex === 0 ? 0 : currentIndex - 9, currentIndex + 20)
+    : [];
+
+  const { scrollY } = useViewportScroll();
   useEffect(() => {
     return scrollY.onChange((value) => {
-      console.log("value: " + value);
-      console.log(
-        "condition: " + (imagesToShow.length * cardDistance - 20 * cardDistance)
-      );
-      if (
-        imagesToShow &&
-        value > imagesToShow.length * cardDistance - 10 * cardDistance
-      ) {
-        setImageCount(imageCount + 10);
+      // console.log("value: " + value);
+      // console.log(
+      //   "condition: " + (imagesToShow.length * cardDistance - 20 * cardDistance)
+      // );
+
+      const currentIndex = Math.floor(value / cardDistance);
+      console.log("currentIndex: " + currentIndex);
+
+      console.log("conditioN: " + (currentIndex % 9));
+      if (currentIndex % 9 === 0) {
+        setCurrentIndex(currentIndex);
       }
     });
   }, [scrollY, imageCount]);
@@ -38,10 +46,11 @@ function ImagesPage() {
       <h1>Images Page</h1>
       <div
         css={css`
-          height: calc(
+          /* height: calc(
             ${imagesToShow ? imagesToShow.length - 1 : 0} * ${cardDistance} *
               1px + 100vh
-          );
+          ); */
+          height: calc(${totalLength} * 1px + 100vh);
         `}
       >
         <div
@@ -70,13 +79,17 @@ function ImagesPage() {
             `}
           >
             {imagesToShow &&
-              imagesToShow.map((img, index) => (
-                <ImageCard
-                  key={index}
-                  src={img.img_src}
-                  index={index}
-                ></ImageCard>
-              ))}
+              imagesToShow.map((img, index) => {
+                const globalIndex =
+                  index + (currentIndex === 0 ? 0 : currentIndex - 9);
+                return (
+                  <ImageCard
+                    key={globalIndex}
+                    src={img.img_src}
+                    index={globalIndex}
+                  ></ImageCard>
+                );
+              })}
           </motion.div>
         </div>
       </div>
