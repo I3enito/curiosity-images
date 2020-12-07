@@ -24,6 +24,7 @@ function ImagesPage() {
     : [];
 
   const { scrollY } = useViewportScroll();
+
   useEffect(() => {
     return scrollY.onChange((value) => {
       // console.log("value: " + value);
@@ -64,6 +65,7 @@ function ImagesPage() {
             perspective-origin: 50% 25%;
             will-change: perspective-origin;
             transform: translate3d(0, 0, 0);
+            background: radial-gradient(#000000ba, black);
           `}
         >
           <motion.div
@@ -82,11 +84,14 @@ function ImagesPage() {
               imagesToShow.map((img, index) => {
                 const globalIndex =
                   index + (currentIndex === 0 ? 0 : currentIndex - 9);
+
+                const elementLength = globalIndex * cardDistance;
                 return (
                   <ImageCard
                     key={globalIndex}
                     src={img.img_src}
                     index={globalIndex}
+                    elementLength={elementLength}
                   ></ImageCard>
                 );
               })}

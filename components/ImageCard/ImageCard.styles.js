@@ -17,5 +17,5 @@ export const outerContainer = (index) => css`
   @media only screen and (min-width: 600px) {
     width: 45%;
   }
-  transform: translate3D(-50%, 0, calc(${cardDistance} * ${index} * -1px));
+  /* transform: translate3D(-50%, 0, calc(${cardDistance} * ${index} * -1px)); */
 `;
