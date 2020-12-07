@@ -29,8 +29,6 @@ export const ImageCard = ({ src, index, elementLength }) => {
       <Image
         src={src}
         alt="Picture of the author"
-        priority
-        loading="eager"
         layout="responsive"
         height="200"
         width="200"

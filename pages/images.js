@@ -1,5 +1,11 @@
 import { css } from "@emotion/react";
-import { motion, useElementScroll, useViewportScroll } from "framer-motion";
+import {
+  motion,
+  useAnimation,
+  useElementScroll,
+  useTransform,
+  useViewportScroll,
+} from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import { cardDistance } from "../components/ImageCard/constants";
@@ -7,14 +13,16 @@ import { ImageCard } from "../components/ImageCard/ImageCard";
 import { fetcher } from "../utils/requests/fetcher";
 
 function ImagesPage() {
-  const [imageCount, setImageCount] = useState(20);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [sol, setSol] = useState(undefined);
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_SERVER_HOST}/images`,
     fetcher
   );
 
   const isLoading = !data && !error;
+
+  const controls = useAnimation();
 
   const totalImages = data && data.length;
   const totalLength = totalImages ? totalImages * cardDistance : 0;
@@ -27,30 +35,43 @@ function ImagesPage() {
 
   useEffect(() => {
     return scrollY.onChange((value) => {
-      // console.log("value: " + value);
-      // console.log(
-      //   "condition: " + (imagesToShow.length * cardDistance - 20 * cardDistance)
-      // );
-
       const currentIndex = Math.floor(value / cardDistance);
-      console.log("currentIndex: " + currentIndex);
+      const currentSol = data && data[currentIndex].sol;
+      if (sol !== currentSol) {
+        setSol(currentSol);
+        controls.start({
+          scale: 1,
+          transition: {
+            type: "spring",
+            velocity: 10,
+            stiffness: 700,
+            damping: 80,
+          },
+        });
+      }
 
-      console.log("conditioN: " + (currentIndex % 9));
       if (currentIndex % 9 === 0) {
         setCurrentIndex(currentIndex);
       }
     });
-  }, [scrollY, imageCount]);
+  }, [scrollY, data, sol]);
+
+  useEffect(() => {
+    return () => {
+      const velocity = scrollY.getVelocity();
+      console.log(velocity);
+    };
+  }, [scrollY]);
+
+  useEffect(() => {});
+
+  const headingTransform = useTransform(scrollY, (val) => val * -1);
 
   return (
     <div>
       <h1>Images Page</h1>
       <div
         css={css`
-          /* height: calc(
-            ${imagesToShow ? imagesToShow.length - 1 : 0} * ${cardDistance} *
-              1px + 100vh
-          ); */
           height: calc(${totalLength} * 1px + 100vh);
         `}
       >
@@ -68,6 +89,19 @@ function ImagesPage() {
             background: radial-gradient(#000000ba, black);
           `}
         >
+          <motion.h2
+            // style={{ translateZ: headingTransform }}
+            animate={controls}
+            css={css`
+              display: block;
+              position: absolute;
+              top: 40px;
+              width: 100%;
+              text-align: center;
+            `}
+          >
+            Sol: {sol}
+          </motion.h2>
           <motion.div
             style={{ translateZ: scrollY }}
             css={css`
@@ -76,7 +110,6 @@ function ImagesPage() {
               height: 100vh;
               width: 100%;
               transform-style: preserve-3d;
-              transform: translateZ(calc(${scrollY} * 1px));
               will-change: transform;
             `}
           >
