@@ -10,10 +10,12 @@ export const ImageCard = ({ src, index }) => {
       <Image
         src={src}
         alt="Picture of the author"
-        preload="true"
+        priority
+        loading="eager"
         layout="responsive"
-        height="400"
-        width="400"
+        height="200"
+        width="200"
+        quality={50}
         css={css`
           object-fit: cover;
         `}

@@ -1,34 +1,47 @@
 import { css } from "@emotion/react";
 import { motion, useElementScroll, useViewportScroll } from "framer-motion";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
+import { cardDistance } from "../components/ImageCard/constants";
 import { ImageCard } from "../components/ImageCard/ImageCard";
 import { fetcher } from "../utils/requests/fetcher";
 
 function ImagesPage() {
-  const scrollElement = useRef(null);
+  const [imageCount, setImageCount] = useState(20);
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_SERVER_HOST}/images`,
     fetcher
   );
 
   const isLoading = !data && !error;
-  
 
-  const imagesToShow = data && data.slice(0, 100);
+  const imagesToShow = data ? data.slice(0, imageCount) : [];
 
-  const { scrollY } = useViewportScroll(scrollElement);
+  const { scrollY, scrollYProgress } = useViewportScroll();
   useEffect(() => {
-    return scrollY.onChange((v) => console.log(v));
-  }, [scrollY]);
+    return scrollY.onChange((value) => {
+      console.log("value: " + value);
+      console.log(
+        "condition: " + (imagesToShow.length * cardDistance - 20 * cardDistance)
+      );
+      if (
+        imagesToShow &&
+        value > imagesToShow.length * cardDistance - 10 * cardDistance
+      ) {
+        setImageCount(imageCount + 10);
+      }
+    });
+  }, [scrollY, imageCount]);
 
   return (
     <div>
       <h1>Images Page</h1>
       <div
-        ref={scrollElement}
         css={css`
-          height: calc(${imagesToShow ? imagesToShow.length : 0} * 100vh);
+          height: calc(
+            ${imagesToShow ? imagesToShow.length - 1 : 0} * ${cardDistance} *
+              1px + 100vh
+          );
         `}
       >
         <div
