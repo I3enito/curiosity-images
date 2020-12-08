@@ -1,11 +1,13 @@
 import { css } from "@emotion/react";
 import {
+  AnimatePresence,
   motion,
   useAnimation,
   useElementScroll,
   useTransform,
   useViewportScroll,
 } from "framer-motion";
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import { cardDistance } from "../components/ImageCard/constants";
@@ -15,10 +17,32 @@ import { fetcher } from "../utils/requests/fetcher";
 function ImagesPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sol, setSol] = useState(undefined);
+  const [requestedFullscreenIndex, setRequestedFullscreenIndex] = useState(
+    false
+  );
+  const [fullScreenActive, setFullScreenActive] = useState(false);
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_SERVER_HOST}/images`,
     fetcher
   );
+
+  const createMouseDownHandler = (index) => () => {
+    setRequestedFullscreenIndex(index);
+  };
+
+  const handleMouseUp = () => {
+    setRequestedFullscreenIndex(undefined);
+    setFullScreenActive(false);
+  };
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (requestedFullscreenIndex) {
+        setFullScreenActive(true);
+      }
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [requestedFullscreenIndex]);
 
   const isLoading = !data && !error;
 
@@ -65,7 +89,7 @@ function ImagesPage() {
 
   useEffect(() => {});
 
-  const headingTransform = useTransform(scrollY, (val) => val * -1);
+  const cameraPosition = useTransform(scrollY, (val) => val - cardDistance);
 
   return (
     <div>
@@ -73,7 +97,12 @@ function ImagesPage() {
       <div
         css={css`
           height: calc(${totalLength} * 1px + 100vh);
+          ${fullScreenActive &&
+          css`
+            overflow-y: hidden;
+          `}
         `}
+        onMouseUp={handleMouseUp}
       >
         <div
           css={css`
@@ -102,8 +131,45 @@ function ImagesPage() {
           >
             Sol: {sol}
           </motion.h2>
+          <motion.h2
+            // style={{ translateZ: headingTransform }}
+            animate={controls}
+            css={css`
+              display: block;
+              position: absolute;
+              top: 120;
+              width: 100%;
+              text-align: center;
+            `}
+          >
+            {fullScreenActive ? "active" : "inactive"}
+          </motion.h2>
+          {fullScreenActive && (
+            <AnimatePresence>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                css={css`
+                  width: 100%;
+                  height: 100%;
+                `}
+              >
+                <Image
+                  src={data[requestedFullscreenIndex].img_src}
+                  alt="Picture of the author"
+                  layout="fill"
+                  quality={80}
+                  priority
+                  loading="eager"
+                  draggable={false}
+                  objectFit="contain"
+                ></Image>
+              </motion.div>
+            </AnimatePresence>
+          )}
           <motion.div
-            style={{ translateZ: scrollY }}
+            style={{ translateZ: cameraPosition }}
             css={css`
               position: absolute;
               top: 0;
@@ -113,21 +179,31 @@ function ImagesPage() {
               will-change: transform;
             `}
           >
-            {imagesToShow &&
-              imagesToShow.map((img, index) => {
-                const globalIndex =
-                  index + (currentIndex === 0 ? 0 : currentIndex - 9);
+            <AnimatePresence>
+              {imagesToShow &&
+                !fullScreenActive &&
+                imagesToShow.map((img, index) => {
+                  const globalIndex =
+                    index + (currentIndex === 0 ? 0 : currentIndex - 9);
 
-                const elementLength = globalIndex * cardDistance;
-                return (
-                  <ImageCard
-                    key={globalIndex}
-                    src={img.img_src}
-                    index={globalIndex}
-                    elementLength={elementLength}
-                  ></ImageCard>
-                );
-              })}
+                  const elementLength = globalIndex * cardDistance;
+                  return (
+                    <ImageCard
+                      key={globalIndex}
+                      uniqueKey={globalIndex}
+                      src={img.img_src}
+                      index={globalIndex}
+                      elementLength={elementLength}
+                      handleMouseDown={createMouseDownHandler(globalIndex)}
+                      handleMouseUp={handleMouseUp}
+
+                      // handleDoubleClick={() =>
+                      //   setRequestedFullscreenIndex(globalIndex)
+                      // }
+                    ></ImageCard>
+                  );
+                })}
+            </AnimatePresence>
           </motion.div>
         </div>
       </div>

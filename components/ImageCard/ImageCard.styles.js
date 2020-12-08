@@ -2,12 +2,13 @@ import { css } from "@emotion/react";
 import { cardDistance } from "./constants";
 
 export const outerContainer = (index) => css`
-  background: #c4c4c4;
+  background: #c4c4c445;
   width: 100%;
   height: auto;
   border-radius: 4px;
   overflow: hidden;
   transform-style: preserve-3d;
+  cursor: pointer;
 
   position: absolute;
   display: block;
