@@ -47,6 +47,7 @@ export const ImageCard = ({
       css={styles.outerContainer(index)}
       onMouseDown={handleMouseDown}
       draggable={false}
+      onTouchStart={handleMouseDown}
       // onMouseUp={handleMouseUp}
       // onDoubleClick={handle}
     >
