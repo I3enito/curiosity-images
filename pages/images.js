@@ -14,12 +14,6 @@ import { cardDistance } from "../components/ImageCard/constants";
 import { ImageCard } from "../components/ImageCard/ImageCard";
 import { fetcher } from "../utils/requests/fetcher";
 
-window.oncontextmenu = function (event) {
-  event.preventDefault();
-  event.stopPropagation();
-  return false;
-};
-
 function ImagesPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sol, setSol] = useState(undefined);

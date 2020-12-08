@@ -9,6 +9,7 @@ export const outerContainer = (index) => css`
   overflow: hidden;
   transform-style: preserve-3d;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 
   position: absolute;
   display: block;
