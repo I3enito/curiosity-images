@@ -1,13 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import * as styles from "./ImageCard.styles.js";
-import { css } from "@emotion/react";
-import {
-  AnimatePresence,
-  motion,
-  useTransform,
-  useViewportScroll,
-} from "framer-motion";
+
+import { motion, useTransform, useViewportScroll } from "framer-motion";
 import { cardDistance } from "./constants.js";
 
 export const ImageCard = ({
@@ -16,7 +11,6 @@ export const ImageCard = ({
   elementLength,
   handleMouseDown,
   handleMouseUp,
-  uniqueKey,
 }) => {
   const { scrollY } = useViewportScroll();
 
@@ -25,13 +19,10 @@ export const ImageCard = ({
     (value) => value - elementLength
   );
 
-  const topPosition = useTransform(
+  const fadeOutTransform = useTransform(
     differenceMotionValue,
     [150, 250],
-    [0, 600],
-    {
-      // ease: [(t) => t],
-    }
+    [0, 600]
   );
 
   return (
@@ -41,19 +32,19 @@ export const ImageCard = ({
       exit={{ opacity: 0 }}
       style={{
         translateX: "-50%",
-        translateY: topPosition,
+        translateY: fadeOutTransform,
         translateZ: cardDistance * index * -1,
       }}
       css={styles.outerContainer(index)}
       onMouseDown={handleMouseDown}
       draggable={false}
       onTouchStart={handleMouseDown}
-      // onMouseUp={handleMouseUp}
-      // onDoubleClick={handle}
+      onTouchMove={handleMouseUp}
+      onContextMenu={(event) => event.preventDefault()}
     >
       <Image
         src={src}
-        alt="Picture of the author"
+        alt="Image of the mars rover curiosity"
         layout="responsive"
         height="200"
         width="200"
