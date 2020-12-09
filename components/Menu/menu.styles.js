@@ -30,7 +30,6 @@ export const menu = css`
     }
 
     p {
-        font-size: 20px;
         margin: 80px auto;
         text-align: center;
         width: 80%;

@@ -17,5 +17,8 @@ export const typing = css`
         @media (min-width: 1000px) {
             font-size: 70px;
         }
+        @media (min-width: 1200px) {
+            font-size: 85px;
+        }
     }
 `;

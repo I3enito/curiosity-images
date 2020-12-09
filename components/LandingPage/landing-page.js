@@ -29,7 +29,7 @@ export const LandingPage = () => {
     });
 
     const facts = [
-        "Curiosity is about 3 metres  long",
+        "Curiosity is about 3 metres long",
         "On the mars since 8 years",
         "Equipped with a radioisotope power system",
         "Snapped a 1.8 billion-pixel panorama",
