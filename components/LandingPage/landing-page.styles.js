@@ -28,7 +28,7 @@ export const landing = css`
         margin-right: 10%;
         width: fit-content;
         font-weight: 200;
-        background-color: rgba(0, 0, 0, 0.3)
+        background-color: rgba(0, 0, 0, 0.3);
     }
 
     .fact h3 {
@@ -36,7 +36,9 @@ export const landing = css`
         font-weight: 200;
     }
 
-    .f0, .f2, .f4 {
+    .f0,
+    .f2,
+    .f4 {
         align-self: flex-end;
     }
 
@@ -47,12 +49,10 @@ export const landing = css`
         align-items: flex-start;
         width: 100%;
         height: 100%;
-        background-color:rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.5);
     }
 `;
 
 export const motion = css`
     width: fit-content;
 `;
-
-
