@@ -1,0 +1,1 @@
+export const cardDistance = 200;
