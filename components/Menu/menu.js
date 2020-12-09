@@ -7,7 +7,7 @@ export const Menu = () => (
     <motion.div
         key="menu"
         initial={{ y: 0, opacity: 0 }}
-        animate={{ y: 30, opacity: 1 }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ ease: "easeIn", duration: 0.5 }}
         exit={{ x: 0, opacity: 0 }}
     >

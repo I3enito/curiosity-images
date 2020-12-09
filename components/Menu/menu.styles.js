@@ -11,13 +11,21 @@ export const menu = css`
         margin: 50px auto;
         width: fit-content;
         font-weight: 800;
+        margin: 60px auto 40px;
+
+        @media (min-width: 360px) {
+            font-size: 45px;
+            margin: 80px auto 50px;
+        }
 
         @media (min-width: 450px) {
             font-size: 60px;
+            margin: 110px auto 70px;
         }
 
         @media (min-width: 850px) {
             font-size: 70px;
+            margin: 150px auto 100px;
         }
     }
 

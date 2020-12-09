@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { css } from "@emotion/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIdleTimer } from "react-idle-timer";
 import * as styles from "./landing-page.styles.js";
