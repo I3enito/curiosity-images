@@ -48,7 +48,7 @@ export const ImageCard = ({
         layout="responsive"
         height="200"
         width="200"
-        quality={50}
+        quality={25}
         objectFit="cover"
         draggable={false}
       ></Image>

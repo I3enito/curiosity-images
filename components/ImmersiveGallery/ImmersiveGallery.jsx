@@ -100,6 +100,7 @@ export const ImmersiveGallery = () => {
         <AnimatePresence>
           {isLoading && (
             <motion.div
+              key="loader"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -123,6 +124,7 @@ export const ImmersiveGallery = () => {
           )}
           {sol && (
             <motion.h2
+              key="solIndicator"
               animate={controls}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -135,6 +137,7 @@ export const ImmersiveGallery = () => {
 
           {fullScreenActive && (
             <motion.div
+              key="fullscreenOverlay"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -156,6 +159,7 @@ export const ImmersiveGallery = () => {
           )}
           {data && (
             <motion.div
+              id="gallery"
               style={{ translateZ: cameraPosition }}
               css={styles.cameraPlane}
             >

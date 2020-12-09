@@ -4,7 +4,6 @@ import { ImmersiveGallery } from "../components/ImmersiveGallery/ImmersiveGaller
 function ImagesPage() {
   return (
     <div>
-      <h1>Images Page</h1>
       <ImmersiveGallery></ImmersiveGallery>
     </div>
   );
