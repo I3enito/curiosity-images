@@ -3,8 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useIdleTimer } from "react-idle-timer";
 import * as styles from "./landing-page.styles.js";
 import { Menu } from "./../Menu/menu";
-import { StaggerWrap } from "./../Stagger/Stagger.jsx";
-import { FadeInFact } from "./../FadeInFact/FadeInFact";
 import { Typing } from "./../Typing/typing";
 
 export const LandingPage = () => {
@@ -47,42 +45,16 @@ export const LandingPage = () => {
                 type="video/mp4"
             ></video>
 
-            <AnimatePresence>
-                {active && (
-                    <div className="menuWrapper">
-                        <Menu></Menu>
-                    </div>
-                )}
-            </AnimatePresence>
+            <AnimatePresence>{active && <Menu></Menu>}</AnimatePresence>
 
             {!active && (
                 <motion.div
-                    css={styles.motion}
-                    initial={{ opacity: 0, color: "#eeeeee" }}
+                    initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ ease: "easeOut", duration: 2 }}
                 >
                     <Typing strings={facts}></Typing>
                 </motion.div>
-                // <motion.div
-                //     css={styles.motion}
-                //     initial={{ opacity: 0, color: "#eeeeee" }}
-                //     animate={{ opacity: 1 }}
-                //     transition={{ ease: "easeOut", duration: 2 }}
-                // >
-                //     <StaggerWrap>
-                //         <ul className="factsWrapper">
-                //             {facts.map((item, key) => (
-                //                 <FadeInFact
-                //                     key={key}
-                //                     className={"fact f" + key}
-                //                 >
-                //                     <h3>{item}</h3>
-                //                 </FadeInFact>
-                //             ))}
-                //         </ul>
-                //     </StaggerWrap>
-                // </motion.div>
             )}
         </div>
     );

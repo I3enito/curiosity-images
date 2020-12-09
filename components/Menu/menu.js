@@ -5,7 +5,6 @@ import * as styles from "./menu.styles.js";
 
 export const Menu = () => (
     <motion.div
-        css={styles.motion}
         key="menu"
         initial={{ y: 0, opacity: 0 }}
         animate={{ y: 30, opacity: 1 }}
@@ -35,7 +34,6 @@ export const Menu = () => (
                 <Link href="/about">
                     <a className="link">About</a>
                 </Link>
-                <h3 className="logo">Logo</h3>
             </div>
         </div>
     </motion.div>
