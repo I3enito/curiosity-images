@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { css } from "@emotion/react";
 import * as styles from "./Configurator.styles.js";
+import { ImmersiveGallery } from "../ImmersiveGallery/ImmersiveGallery.js";
+import { rovers, pages } from "../../utils/constants";
 
 function Configurator() {
     const router = useRouter();
@@ -15,12 +17,7 @@ function Configurator() {
         router.push("configurator?page=rover", undefined, { shallow: true });
     }, []);
 
-    const pages = {
-        rover: "rover",
-        cam: "cam",
-        sol: "sol",
-        end: "end",
-    };
+    
 
     useEffect(() => {
         // the page has changed
@@ -47,16 +44,15 @@ function Configurator() {
         const path = `configurator/?page=${pages.cam}&rover=${rover}`;
         router.push(path, undefined, { shallow: true });
     };
-
-    const rovers = [
-        "Curiosity",
-        "Opportunity",
-        "Spirit"
-    ];
-
+    // console.log(Object.entries(rovers))
+    // let roverArray = [];
+    // for (let rover in rovers) {
+    //     console.log(rover)
+    //     roverArray.push(rover)
+    // }
     const roverlist = rovers.map((rover) => (
-        <button key={rover} onClick={() => selectRover(rover)}>
-            {rover}
+        <button key={rover.name} onClick={() => selectRover(rover.name)}>
+            {rover.name}
         </button>
     ));
 
@@ -76,11 +72,16 @@ function Configurator() {
         "Panoramic Camera",
         "Miniature Thermal Emission Spectrometer (Mini-TES)",
     ];
-    const cameraList = cameras.map((cam) => (
-        <button key={cam} onClick={() => selectCam(cam)}>
-            {cam}
-        </button>
-    ));
+    let roverObject = rovers.find(r => r.name === rover)
+    console.log(roverObject)
+    let cameraList;
+    if (roverObject) {
+        cameraList = roverObject.cams.map((cam) => (
+            <button key={cam.value} onClick={() => selectCam(cam.value)}>
+                {cam.name}
+            </button>
+        ));
+    }
 
     // Sol selection
     const selectSol = (sol) => {
@@ -97,68 +98,62 @@ function Configurator() {
     ));
 
     return (
-        <div css={styles.conf}>
-            {page == "rover" && (
-                <>
-                    <h2 className="title">Select your Mars Rover</h2>
-                    <ul
-                        css={css`
-                            color: white;
-                        `}
-                    >
-                        {roverlist}
-                    </ul>
-                </>
+        <>
+            {page !== "end" && (
+                <div css={styles.conf}>
+                    {page == "rover" && (
+                        <>
+                            <h2 className="title">Select your Mars Rover</h2>
+                            <ul
+                                css={css`
+                                    color: white;
+                                `}
+                            >
+                                {roverlist}
+                            </ul>
+                        </>
+                    )}
+                    {page == "cam" && (
+                        <>
+                            <h2 className="title">
+                                Select the Camera of {rover}
+                            </h2>
+                            <ul
+                                css={css`
+                                    color: white;
+                                `}
+                            >
+                                {cameraList}
+                            </ul>
+                        </>
+                    )}
+                    {page == "sol" && (
+                        <>
+                            <h2 className="title">Select the initial Sol</h2>
+                            <ul
+                                css={css`
+                                    color: white;
+                                    button {
+                                        width: 100px;
+                                        text-align: center;
+                                    }
+                                `}
+                            >
+                                {solList}
+                            </ul>
+                        </>
+                    )}
+                </div>
             )}
-            {page == "cam" && (
-                <>
-                    <h2 className="title">Select the Camera of {rover}</h2>
-                    <ul
-                        css={css`
-                            color: white;
-                        `}
-                    >
-                        {cameraList}
-                    </ul>
-                </>
-            )}
-            {page == "sol" && (
-                <>
-                    <h2 className="title">Select the initial Sol</h2>
-                    <ul
-                        css={css`
-                            color: white;
-                            button {
-                                width: 100px;
-                                text-align: center;
-                            }
-                        `}
-                    >
-                        {solList}
-                    </ul>
-                </>
-            )}
-            {page == "end" && (
-                <>
-                    <h2 className="title">Your Choice:</h2>
-                    <div
-                        css={css`
-                            color: white;
-                            margin: 40px auto;
 
-                            p {
-                                margin: 10px auto;
-                                width: fit-content;
-                            }
-                        `}
-                    >
-                        <p>Rover: {rover}</p>
-                        <p>Camera: {cam}</p>
-                        <p>Sol: {sol}</p>
-                    </div>
-                </>
+            {page === "end" && (
+                <ImmersiveGallery
+                    initialSol={sol}
+                    cameraName="NAVCAM"
+                    roverName={rover}
+                ></ImmersiveGallery>
             )}
-        </div>
+        </>
     );
 }
 
