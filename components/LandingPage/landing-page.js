@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { css } from "@emotion/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIdleTimer } from "react-idle-timer";
 import * as styles from "./landing-page.styles.js";
@@ -39,6 +38,7 @@ export const LandingPage = () => {
     return (
         <div css={styles.landing}>
             <video
+                playsInline
                 autoPlay
                 muted
                 loop
