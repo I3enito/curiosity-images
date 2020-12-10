@@ -4,7 +4,10 @@ import { ImmersiveGallery } from "../components/ImmersiveGallery/ImmersiveGaller
 function ImagesPage() {
   return (
     <div>
-      <ImmersiveGallery></ImmersiveGallery>
+      <ImmersiveGallery
+        cameraName="NAVCAM"
+        roverName="Curiosity"
+      ></ImmersiveGallery>
     </div>
   );
 }
