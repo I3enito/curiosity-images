@@ -128,6 +128,10 @@ function Configurator() {
                     <ul
                         css={css`
                             color: white;
+                            button {
+                                width: 100px;
+                                text-align: center;
+                            }
                         `}
                     >
                         {solList}
