@@ -167,11 +167,11 @@ export const ImmersiveGallery = ({ initialSol, cameraName, roverName }) => {
                 <ul>
                   <li>
                     <span>rover</span>
-                    {data[requestedFullscreenIndex].rover_id}
+                    {data[requestedFullscreenIndex].rover}
                   </li>
                   <li>
                     <span>camera</span>
-                    {data[requestedFullscreenIndex].camera_id}
+                    {data[requestedFullscreenIndex].camera}
                   </li>
                   <li>
                     <span>sol</span>
