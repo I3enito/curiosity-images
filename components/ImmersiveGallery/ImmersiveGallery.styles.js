@@ -32,6 +32,7 @@ export const solIndicator = css`
 export const fullScreenOverlay = css`
   width: 100%;
   height: 100%;
+  background: #00000030;
 `;
 
 export const cameraPlane = css`
@@ -41,4 +42,35 @@ export const cameraPlane = css`
   width: 100%;
   transform-style: preserve-3d;
   will-change: transform;
+`;
+
+export const informationContainer = css`
+  position: absolute;
+  bottom: 0;
+  min-height: 80px;
+  text-align: right;
+  font-weight: 500;
+  width: 100%;
+  margin: auto;
+  padding: 20px 20px;
+  background-color: #00000096;
+
+  & ul {
+    width: 100%;
+    margin: auto;
+
+    @media (min-width: 640px) {
+      max-width: 800px;
+    }
+  }
+
+  & li {
+    padding-bottom: 12px;
+  }
+
+  & span {
+    float: left;
+    margin-right: 24px;
+    font-weight: 300;
+  }
 `;
