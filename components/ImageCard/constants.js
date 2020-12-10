@@ -1,1 +1,1 @@
-export const cardDistance = 200;
+export const cardDistance = 170;

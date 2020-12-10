@@ -19,7 +19,7 @@ import dayjs from "dayjs";
 export const ImmersiveGallery = ({ initialSol, cameraName, roverName }) => {
   // state
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [sol, setSol] = useState(undefined);
+  const [sol, setSol] = useState(0);
   const [requestedFullscreenIndex, setRequestedFullscreenIndex] = useState(
     false
   );
@@ -68,8 +68,8 @@ export const ImmersiveGallery = ({ initialSol, cameraName, roverName }) => {
   useEffect(() => {
     return scrollY.onChange((value) => {
       const calculatedIndex = Math.floor(value / cardDistance);
-      const currentSol = data && data[calculatedIndex].sol;
-      if (sol !== currentSol) {
+      const currentSol = data && data[calculatedIndex]?.sol;
+      if (currentSol && sol !== currentSol) {
         setSol(currentSol);
         controls.start({
           scale: 1,

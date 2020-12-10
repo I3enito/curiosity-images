@@ -14,7 +14,7 @@ export const threeDimensionalContainer = css`
   left: 0;
   width: 100%;
   height: 100%;
-  perspective: 150px;
+  perspective: 130px;
   perspective-origin: 50% 25%;
   will-change: perspective-origin;
   transform: translate3d(0, 0, 0);
