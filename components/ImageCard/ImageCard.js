@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import * as styles from "./ImageCard.styles.js";
 
@@ -12,6 +12,7 @@ export const ImageCard = ({
   handleMouseDown,
   handleMouseUp,
 }) => {
+  const [ready, setReady] = useState(false);
   const { scrollY } = useViewportScroll();
 
   const differenceMotionValue = useTransform(
@@ -24,6 +25,11 @@ export const ImageCard = ({
     [150, 250],
     [0, 600]
   );
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => setReady(true), 300);
+    return () => clearTimeout(timeoutId);
+  });
 
   return (
     <motion.div
@@ -42,16 +48,18 @@ export const ImageCard = ({
       onTouchMove={handleMouseUp}
       onContextMenu={(event) => event.preventDefault()}
     >
-      <Image
-        src={src}
-        alt="Image of the mars rover curiosity"
-        layout="responsive"
-        height="200"
-        width="200"
-        quality={25}
-        objectFit="cover"
-        draggable={false}
-      ></Image>
+      {ready && (
+        <Image
+          src={src}
+          alt="Image of the mars rover curiosity"
+          layout="responsive"
+          height="200"
+          width="200"
+          quality={25}
+          objectFit="cover"
+          draggable={false}
+        ></Image>
+      )}
     </motion.div>
   );
 };

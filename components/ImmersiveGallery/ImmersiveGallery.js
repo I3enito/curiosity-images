@@ -14,8 +14,9 @@ import { fetcher } from "../../utils/requests/fetcher";
 import * as styles from "./ImmersiveGallery.styles.js";
 import { Loader } from "../Loader/Loader";
 import { css } from "@emotion/react";
+import dayjs from "dayjs";
 
-export const ImmersiveGallery = () => {
+export const ImmersiveGallery = ({ initialSol, cameraName, roverName }) => {
   // state
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sol, setSol] = useState(undefined);
@@ -26,7 +27,7 @@ export const ImmersiveGallery = () => {
 
   // data fetching
   const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_SERVER_HOST}/images`,
+    `${process.env.NEXT_PUBLIC_SERVER_HOST}/images?rover=${roverName}&camera=${cameraName}`,
     fetcher,
     {
       revalidateOnFocus: false,
@@ -66,8 +67,8 @@ export const ImmersiveGallery = () => {
 
   useEffect(() => {
     return scrollY.onChange((value) => {
-      const currentIndex = Math.floor(value / cardDistance);
-      const currentSol = data && data[currentIndex].sol;
+      const calculatedIndex = Math.floor(value / cardDistance);
+      const currentSol = data && data[calculatedIndex].sol;
       if (sol !== currentSol) {
         setSol(currentSol);
         controls.start({
@@ -81,11 +82,15 @@ export const ImmersiveGallery = () => {
         });
       }
 
-      if (currentIndex % 9 === 0) {
-        setCurrentIndex(currentIndex);
+      if (calculatedIndex % 9 === 0) {
+        console.log(Math.abs(calculatedIndex - currentIndex));
+        setCurrentIndex(calculatedIndex);
+      } else if (Math.abs(calculatedIndex - currentIndex) > 10) {
+        console.log("special case");
+        setCurrentIndex(calculatedIndex - (calculatedIndex % 9));
       }
     });
-  }, [scrollY, data, sol]);
+  }, [scrollY, data, sol, currentIndex]);
 
   const cameraPosition = useTransform(scrollY, (val) => val - cardDistance);
 
@@ -147,6 +152,9 @@ export const ImmersiveGallery = () => {
             >
               <Image
                 src={data[requestedFullscreenIndex].img_src}
+                className={css`
+                  background-color: red;
+                `}
                 alt="Picture of the author"
                 layout="fill"
                 quality={80}
@@ -155,6 +163,28 @@ export const ImmersiveGallery = () => {
                 draggable={false}
                 objectFit="contain"
               ></Image>
+              <div css={styles.informationContainer}>
+                <ul>
+                  <li>
+                    <span>rover</span>
+                    {data[requestedFullscreenIndex].rover_id}
+                  </li>
+                  <li>
+                    <span>camera</span>
+                    {data[requestedFullscreenIndex].camera_id}
+                  </li>
+                  <li>
+                    <span>sol</span>
+                    {data[requestedFullscreenIndex].sol}
+                  </li>
+                  <li>
+                    <span>earth date</span>
+                    {dayjs(data[requestedFullscreenIndex].earth_date).format(
+                      "DD MMMM YYYY"
+                    )}
+                  </li>
+                </ul>
+              </div>
             </motion.div>
           )}
           {data && (
