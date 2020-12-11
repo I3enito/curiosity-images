@@ -7,7 +7,7 @@ import * as styles from "./Configurator.styles.js";
 import { ImmersiveGallery } from "../ImmersiveGallery/ImmersiveGallery.js";
 import { fetcher } from "../../utils/requests/fetcher";
 import { RoverCard } from "./../RoverCard/RoverCard";
-import { Loader } from "./../Loader/Loader";
+import { Loader } from "../Loader/Loader";
 import { CameraCard } from "../CameraCard/CameraCard.js";
 
 const PAGE_ROVER = "rover";

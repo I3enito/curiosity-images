@@ -12,5 +12,6 @@ const rotationKeyframes = keyframes`
 
 export const container = css`
   width: 40px;
+  z-index: 100;
   animation: ${rotationKeyframes} 1.5s ease-in-out infinite;
 `;
