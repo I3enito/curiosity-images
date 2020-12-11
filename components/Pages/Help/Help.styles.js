@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 export const help = css`
     background-color: #111111;
     padding-bottom: 50px;
+    height: 100vh;
 
     p,
     h1,
