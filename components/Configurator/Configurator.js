@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import { motion } from "framer-motion";
 import { css } from "@emotion/react";
 import * as styles from "./Configurator.styles.js";
 import { ImmersiveGallery } from "../ImmersiveGallery/ImmersiveGallery.js";
 import { fetcher } from "../../utils/requests/fetcher";
 import { RoverCard } from "./../RoverCard/RoverCard";
+import { Loader } from "./../Loader/Loader";
 
 const PAGE_ROVER = "rover";
 const PAGE_CAM = "cam";
@@ -26,54 +28,41 @@ function Configurator() {
         setSol(router.query.sol);
     }, [router.query]);
 
+    // data fetching
+    const { data: roverInformation, error: roverError } = useSWR(
+        `${process.env.NEXT_PUBLIC_SERVER_HOST}/rovers`,
+        fetcher
+    );
+    const roverIsLoading = !roverInformation && !roverError;
+
+    const { data: cameras, error: camerasError } = useSWR(
+        () =>
+            rover &&
+            `${process.env.NEXT_PUBLIC_SERVER_HOST}/cameras?rover=${rover}`,
+        fetcher
+    );
+    const camerasIsLoading = !cameras && !camerasError;
+
+    const { data: availableSols, error: availableSolsError } = useSWR(
+        () =>
+            rover &&
+            cam &&
+            `${process.env.NEXT_PUBLIC_SERVER_HOST}/images/available-sols?rover=${rover}&camera=${cam}`,
+        fetcher
+    );
+    const availableSolsIsLoading = !availableSols && !availableSolsError;
+
     // Rover selection
     const selectRover = (rover) => {
         const path = `configurator/?page=${PAGE_CAM}&rover=${rover}`;
         router.push(path, undefined, { shallow: true });
     };
-    const fetchRoverImages = () => {
-        const { data, error } = useSWR(
-            `${process.env.NEXT_PUBLIC_SERVER_HOST}/images/count/rover?rover=Curiosity`,
-            fetcher
-        );
-        return data;
-    };
-    const roverImages = fetchRoverImages();
-
-    const fetchRoverInfos = () => {
-        const { data, error } = useSWR(
-            `${process.env.NEXT_PUBLIC_SERVER_HOST}/rovers/info?rover=Curiosity`,
-            fetcher
-        );
-        return data;
-    };
-    const roverInfos = fetchRoverInfos();
-    console.log(roverInfos);
 
     // Cam selection
     const selectCam = (cam) => {
         const path = `configurator/?page=${PAGE_SOL}&rover=${rover}&cam=${cam}`;
         router.push(path, undefined, { shallow: true });
     };
-    const fetchCameras = () => {
-        const { data, error } = useSWR(
-            `${process.env.NEXT_PUBLIC_SERVER_HOST}/cameras?rover=Curiosity`,
-            fetcher
-        );
-        return data;
-    };
-    const cameras = fetchCameras();
-
-    const fetchCameraImages = (camera) => {
-        const { data, error } = useSWR(
-            `${process.env.NEXT_PUBLIC_SERVER_HOST}/images/count/camera?rover=Curiosity&camera=${camera}`,
-            fetcher
-        );
-        return data;
-    };
-    // const fhza = fetchCameraImages("FHAZ");
-    // const navcam = fetchCameraImages("NAVCAM");
-    // console.log(navcam.fhza);
 
     // Sol selection
     const selectSol = (sol) => {
@@ -81,20 +70,11 @@ function Configurator() {
         router.push(href, href, { shallow: true });
     };
 
-    const fetchSols = () => {
-        const { data, error } = useSWR(
-            `${process.env.NEXT_PUBLIC_SERVER_HOST}/images/available-sols?rover=${rover}&camera=${cam}`,
-            fetcher
-        );
-        return data;
-    };
-    const sols = fetchSols();
-
     return (
         <>
             {page !== "end" && (
                 <div css={styles.conf}>
-                    {page == "rover" && roverImages && (
+                    {page == "rover" && roverInformation && (
                         <>
                             <h2 className="title">Select your Mars Rover</h2>
                             <ul
@@ -102,20 +82,51 @@ function Configurator() {
                                     color: white;
                                 `}
                             >
-                                {/* <button
-                                    onClick={() => selectRover("Curiosity")}
-                                >
-                                    Curiosity
-                                    {" | Images: " + roverImages.count}
-                                </button> */}
-                                <RoverCard
-                                    name={roverInfos.name}
-                                    images={roverImages.count}
-                                    landing_date={roverInfos.landing_date}
-                                    launch_date={roverInfos.launch_date}
-                                    status={roverInfos.status}
-                                    onclick={() => selectRover("Curiosity")}
-                                ></RoverCard>
+                                {roverIsLoading && (
+                                    <>
+                                        <motion.div
+                                            key="loader"
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            css={css`
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                text-align: center;
+                                                display: block;
+                                                transform: translate(
+                                                    -50%,
+                                                    -50%
+                                                );
+                                            `}
+                                        >
+                                            <Loader
+                                                css={css`
+                                                    margin-bottom: 120px;
+                                                    margin: 0 auto 40px;
+                                                `}
+                                            ></Loader>
+                                            <motion.h3>
+                                                Loading rover data...
+                                            </motion.h3>
+                                        </motion.div>
+                                    </>
+                                )}
+                                {roverInformation &&
+                                    roverInformation.map((rover) => (
+                                        <RoverCard
+                                            key={rover.id}
+                                            name={rover.name}
+                                            images={rover.image_count}
+                                            landing_date={rover.landing_date}
+                                            launch_date={rover.launch_date}
+                                            status={rover.status}
+                                            onclick={() =>
+                                                selectRover(rover.name)
+                                            }
+                                        ></RoverCard>
+                                    ))}
                             </ul>
                         </>
                     )}
@@ -133,6 +144,37 @@ function Configurator() {
                                     color: white;
                                 `}
                             >
+                                {camerasIsLoading && (
+                                    <>
+                                        <motion.div
+                                            key="loader"
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            css={css`
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                text-align: center;
+                                                display: block;
+                                                transform: translate(
+                                                    -50%,
+                                                    -50%
+                                                );
+                                            `}
+                                        >
+                                            <Loader
+                                                css={css`
+                                                    margin-bottom: 120px;
+                                                    margin: 0 auto 40px;
+                                                `}
+                                            ></Loader>
+                                            <motion.h3>
+                                                Loading camera data...
+                                            </motion.h3>
+                                        </motion.div>
+                                    </>
+                                )}
                                 {cameras &&
                                     cameras.map((cam) => (
                                         <button
@@ -151,14 +193,46 @@ function Configurator() {
                             <ul
                                 css={css`
                                     color: white;
+                                    background-color: #111111;
                                     button {
                                         width: 100px;
                                         text-align: center;
                                     }
                                 `}
                             >
-                                {sols &&
-                                    sols.map((sol) => (
+                                {availableSolsIsLoading && (
+                                    <>
+                                        <motion.div
+                                            key="loader"
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            css={css`
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                text-align: center;
+                                                display: block;
+                                                transform: translate(
+                                                    -50%,
+                                                    -50%
+                                                );
+                                            `}
+                                        >
+                                            <Loader
+                                                css={css`
+                                                    margin-bottom: 120px;
+                                                    margin: 0 auto 40px;
+                                                `}
+                                            ></Loader>
+                                            <motion.h3>
+                                                Loading sol data...
+                                            </motion.h3>
+                                        </motion.div>
+                                    </>
+                                )}
+                                {availableSols &&
+                                    availableSols.map((sol) => (
                                         <button
                                             key={sol.index}
                                             onClick={() => selectSol(sol)}
