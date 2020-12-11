@@ -8,6 +8,7 @@ import { ImmersiveGallery } from "../ImmersiveGallery/ImmersiveGallery.js";
 import { fetcher } from "../../utils/requests/fetcher";
 import { RoverCard } from "./../RoverCard/RoverCard";
 import { Loader } from "./../Loader/Loader";
+import { CameraCard } from "../CameraCard/CameraCard.js";
 
 const PAGE_ROVER = "rover";
 const PAGE_CAM = "cam";
@@ -80,6 +81,8 @@ function Configurator() {
                             <ul
                                 css={css`
                                     color: white;
+                                    background-color: #111111;
+                                    padding-bottom: 50px;
                                 `}
                             >
                                 {roverIsLoading && (
@@ -142,6 +145,8 @@ function Configurator() {
                             <ul
                                 css={css`
                                     color: white;
+                                    background-color: #111111;
+                                    padding-bottom: 50px;
                                 `}
                             >
                                 {camerasIsLoading && (
@@ -177,12 +182,12 @@ function Configurator() {
                                 )}
                                 {cameras &&
                                     cameras.map((cam) => (
-                                        <button
+                                        <CameraCard
                                             key={cam.id}
-                                            onClick={() => selectCam(cam.name)}
-                                        >
-                                            {cam.full_name}
-                                        </button>
+                                            name={cam.full_name}
+                                            images={cam.image_count}
+                                            onclick={() => selectCam(cam.name)}
+                                        ></CameraCard>
                                     ))}
                             </ul>
                         </div>
@@ -194,6 +199,7 @@ function Configurator() {
                                 css={css`
                                     color: white;
                                     background-color: #111111;
+                                    padding-bottom: 50px;
                                     button {
                                         width: 100px;
                                         text-align: center;
