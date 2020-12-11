@@ -1,4 +1,5 @@
 import React from "react";
+import dayjs from "dayjs";
 import * as styles from "./RoverCard.styles.js";
 
 export const RoverCard = ({
@@ -11,11 +12,26 @@ export const RoverCard = ({
 }) => {
     return (
         <div css={styles.cardContainer}>
-            <h3>{name}</h3>
-            <p>Images: {images}</p>
-            <p>Landing Date: {landing_date}</p>
-            <p>Launch Date: {launch_date}</p>
-            <p>Status: {status}</p>
+            <h3 className="rover">{name}</h3>
+            <div className="container">
+                <div className="row">
+                    <p className="sub">Images</p>
+                    <p className="data">{images}</p>
+                </div>
+                <div className="row">
+                    <p className="sub">Launch</p>
+                    <p className="data">{dayjs(launch_date).format("DD MMMM YYYY")}</p>
+                </div>
+                <div className="row">
+                    <p className="sub">Landing</p>
+                    <p className="data">{dayjs(landing_date).format("DD MMMM YYYY")}</p>
+                </div>
+                <div className="row">
+                    <p className="sub">Status</p>
+                    <p className="data">{status}</p>
+                </div>
+            </div>
+
             <button onClick={onclick}>Select</button>
         </div>
     );

@@ -41,11 +41,16 @@ export const conf = css`
         text-decoration: none;
         text-align: center;
         width: 170px;
+        cursor: pointer;
 
         &:hover {
             color: #111111;
             background-color: #ffffff;
             box-shadow: 0 5px 5px -3px  #e87b81;
+        }
+
+        &:focus {
+            outline: 0;
         }
 
         @media (min-width: 360px) {
