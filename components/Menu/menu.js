@@ -28,10 +28,15 @@ export const Menu = () => (
           <a>Start exploring</a>
         </Link>
       </motion.button>
+      <div css={styles.about}>
+        <Link className="link" href="/help">
+          Help
+        </Link>
+      </div>
 
       <div css={styles.about}>
-        <Link href="/about">
-          <a className="link">About</a>
+        <Link className="link" href="/about">
+          About
         </Link>
       </div>
     </div>
