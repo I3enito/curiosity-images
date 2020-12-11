@@ -147,35 +147,40 @@ a {
 
 body {
     color: #ffffff;
-    line-height: 1.1;
 }
 
 h1 {
+    color: #ffffff;
     font-weight: 400;
     font-size: 36px;
 }
 
 h2 {
+    color: #ffffff;
     font-weight: 400;
     font-size: 24px;
 }
 
 h3 {
+    color: #ffffff;
     font-weight: 400;
     font-size: 18px;
 }
 
 h4 {
+    color: #ffffff;
     font-weight: 400;
     font-size: 14px;
 }
 
 p {
+    color: #ffffff;
     font-weight: 200;
     font-size: 20px;
 }
 
 a {
+    color: #ffffff;
     font-weight: 400;
     font-size: 18px;
 }
