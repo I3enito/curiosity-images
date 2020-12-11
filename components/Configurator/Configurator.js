@@ -254,7 +254,7 @@ function Configurator() {
 
             {page === "end" && (
                 <ImmersiveGallery
-                    initialSol={sol}
+                    initialSol={parseInt(sol)}
                     cameraName={cam}
                     roverName={rover}
                 ></ImmersiveGallery>
