@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 
 export const cardContainer = () => css`
-    margin: 0 auto;
+    margin: 10px auto;
     background-color: #111111;
     color: white;
     padding: 15px;
@@ -13,15 +13,9 @@ export const cardContainer = () => css`
         display: flex;
         flex-direction: column; 
     }
-    .sub {
-        margin-bottom: 10px;
-        padding: 5px;
-        width: fit-content;
-        font-weight: 500;
-    }
 
-    .data {
-        align-self: flex-end;
+    .item {
+        align-self: center;
     }
 
     p {
@@ -29,17 +23,17 @@ export const cardContainer = () => css`
         
     }
 
-    .rover {
+    .name {
         align-self: center;
         margin-top: 20px;
         margin-bottom: 20px;
-        font-weight: 600;
-        font-size: 30px;
+        font-weight: 400;
+        font-size: 25px;
+        text-align: center;
     }
 
     .button {
-        display: block;
-        align-self: flex-end;
+        margin-top: 20px;
         border-radius: 0.12em;
         color: #ffffff;
         background-color: rgba(0, 0, 0, 0);
