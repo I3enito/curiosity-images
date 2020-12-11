@@ -7,6 +7,7 @@ function ImagesPage() {
       <ImmersiveGallery
         cameraName="NAVCAM"
         roverName="Curiosity"
+        initialSol={432}
       ></ImmersiveGallery>
     </div>
   );

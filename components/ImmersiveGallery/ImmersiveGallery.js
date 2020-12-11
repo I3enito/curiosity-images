@@ -19,7 +19,7 @@ import dayjs from "dayjs";
 export const ImmersiveGallery = ({ initialSol, cameraName, roverName }) => {
   // state
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [sol, setSol] = useState(undefined);
+  const [sol, setSol] = useState(0);
   const [requestedFullscreenIndex, setRequestedFullscreenIndex] = useState(
     false
   );
@@ -37,6 +37,8 @@ export const ImmersiveGallery = ({ initialSol, cameraName, roverName }) => {
   const totalImages = data && data.length;
   const totalLength = totalImages ? totalImages * cardDistance : 0;
 
+  const startIndex = data && data.findIndex((el) => el.sol === initialSol);
+  
   const imagesToShow = data
     ? data.slice(currentIndex === 0 ? 0 : currentIndex - 9, currentIndex + 20)
     : [];
@@ -66,10 +68,16 @@ export const ImmersiveGallery = ({ initialSol, cameraName, roverName }) => {
   const { scrollY } = useViewportScroll();
 
   useEffect(() => {
+    if (startIndex >= 0) {
+      window.scroll(0, startIndex * cardDistance);
+    }
+  }, [startIndex]);
+
+  useEffect(() => {
     return scrollY.onChange((value) => {
       const calculatedIndex = Math.floor(value / cardDistance);
-      const currentSol = data && data[calculatedIndex].sol;
-      if (sol !== currentSol) {
+      const currentSol = data && data[calculatedIndex]?.sol;
+      if (currentSol && sol !== currentSol) {
         setSol(currentSol);
         controls.start({
           scale: 1,
@@ -83,10 +91,8 @@ export const ImmersiveGallery = ({ initialSol, cameraName, roverName }) => {
       }
 
       if (calculatedIndex % 9 === 0) {
-        console.log(Math.abs(calculatedIndex - currentIndex));
         setCurrentIndex(calculatedIndex);
       } else if (Math.abs(calculatedIndex - currentIndex) > 10) {
-        console.log("special case");
         setCurrentIndex(calculatedIndex - (calculatedIndex % 9));
       }
     });
